@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neu.dao.IAlbumDao">
+    <insert id="insertAlbum" parameterType="com.neu.bean.Album">
+        insert into album(albumname,uid,albumdiscribe,albumnotes,albumdate)
+        values(#{albumname},#{uid},#{albumdiscribe},#{albumnotes},#{albumdate})
+    </insert>
+
+    <delete id="deleteAlbum" parameterType="com.neu.bean.Album">
+        delete from album where albumid=#{xxx}
+    </delete>
+
+    <update id="updateAlbum" parameterType="com.neu.bean.Album">
+        update album set
+        albumname=#{albumname},uid=#{uid},albumdate=#{albumdate},albumdiscribe=#{albumdiscribe},albumnotes=#{albumnotes} where albumid=#{albumid}
+    </update>
+
+    <select id="selectAllAlbum" resultType="com.neu.bean.Album">
+        select * from album
+    </select>
+
+    <select id="selectByAlbumId" resultType="com.neu.bean.Album">
+        select * from album where albumid=#{xxx}
+    </select>
+
+    <select id="selectByUserId" resultType="Album">
+        select * from album where uid=#{xxx}
+    </select>
+
+    <select id="selectAlbumByName" resultType="Album">
+        select * from album where albumname like '%' #{xxx} '%'
+    </select>
+
+    <select id="selectByRealAlbumName" resultType="Album">
+        select * from album where albumname=#{albumname}
+    </select>
+    <select id="JudeAlbum" resultType="int">
+        select IFNULL(max(albumid),0) from album where albumname=#{albumname} and uid=#{uid}
+    </select>
+
+    <select id="selectByAlbumNameAndUid" resultType="Album">
+        select * from album where albumname=#{albumname} and uid=#{uid}
+    </select>
+
+    <select id="getNameById" resultType="String">
+        select albumname from album where albumid=#{albumid}
+    </select>
+
+</mapper>

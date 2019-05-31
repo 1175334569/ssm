@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neu.dao.IPictypeDao">
+    <select id="selectIdByName" resultType="int">
+        select IFNULL(max(typeid),0) from pictype where typename=#{typename}
+    </select>
+    <select id="selectAll" resultType="Pictype">
+        select  * from pictype
+    </select>
+</mapper>

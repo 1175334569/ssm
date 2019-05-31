@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neu.dao.IPictureDao">
+    <insert id="insertPicture" parameterType="Picture">
+        insert into picture(picturename,picture,uid,aid,picturediscribe,date,type)
+        values(#{picturename},#{picture},#{uid},#{aid},#{picturediscribe},#{date},#{type})
+    </insert>
+
+    <update id="updatePicture" parameterType="Picture">
+        update picture set
+        picturename=#{picturename},aid=#{aid},picture=#{picture},
+        picturediscribe=#{picturediscribe},type=#{type} where pictureid=#{pictureid}
+    </update>
+
+    <delete id="deletePicture" parameterType="Picture">
+        delete from picture where pictureid=#{xxx}
+    </delete>
+
+    <select id="selectAllPicture" resultType="Picture">
+        select * from picture
+    </select>
+
+    <select id="selectById" resultType="Picture">
+        select * from picture where pictureid=#{xxx}
+    </select>
+
+    <select id="selectByUserId" resultType="Picture">
+        select * from picture where uid=#{xxx}
+    </select>
+
+    <select id="selectByAlbumId" resultType="Picture">
+        select * from picture where aid=#{xxx}
+    </select>
+
+    <select id="selectByTypeId" resultType="Picture">
+        select * from picture where type=#{xxx}
+    </select>
+
+    <select id="selectPictureByName" resultType="Picture">
+        select * from picture where picturename  like '%' #{xxx} '%'
+    </select>
+
+    <select id="Jsamename" resultType="int">
+       select IFNULL(max(pictureid),0) from picture where picturename=#{name} and uid=#{uid}
+</select>
+    
+    <select id="getfirstpic" resultType="Picture">
+        SELECT * FROM picture WHERE aid=#{aid} and uid=#{uid} LIMIT 1
+    </select>
+
+    <select id="selectByAidAndUid" resultType="Picture">
+        SELECT * FROM picture WHERE aid=#{aid} and uid=#{uid}
+    </select>
+    <select id="selectPictureByNameAndUid" resultType="Picture">
+        select * from picture where picturename  like '%' #{picturename} '%' and uid=#{uid}
+    </select>
+
+    <select id="selectPictureByRealName" resultType="Picture">
+        select * from picture where picturename=#{xx}
+    </select>
+</mapper>

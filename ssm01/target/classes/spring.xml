@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <!-- 配置c3p0数据源 -->
+    <bean id="myDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="driverClass" value="${jdbc.driver}"/>
+        <property name="jdbcUrl" value="${jdbc.url}"/>
+        <property name="user" value="${jdbc.user}"/>
+        <property name="password" value="${jdbc.password}"/>
+    </bean>
+    <!-- 注册属性文件 -->
+    <bean
+            class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <!-- Location必须如此 -->
+        <property name="Location" value="classpath:jdbc.properties"/>
+    </bean>
+
+    <!-- 注册SqlSessionFactory的bean -->
+    <bean id="mySqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!-- 指定mybatis配置文件位置 -->
+        <property name="configLocation" value="classpath:mybatis.xml"/>
+        <!--dataSource必须如此 -->
+        <property name="dataSource" ref="myDataSource"/>
+    </bean>
+    <!-- 生成dao的代理,使用MapperScannerConfigurer扫描器 -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="sqlSessionFactoryBeanName" value="mySqlSessionFactory"/>
+        <!-- 指定映射的接口 -->
+        <property name="basePackage" value="com.neu.dao"/>
+    </bean>
+    <!-- 注册service -->
+    <context:component-scan  base-package="com.neu.service"/>
+
+    <!-- 注册事务管理器 -->
+    <bean id="myTransactionManager"
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="myDataSource"/>
+    </bean>
+    <!-- 注册事务通知 -->
+    <tx:advice id="txAdvice" transaction-manager="myTransactionManager">
+        <tx:attributes>
+            <tx:method name="add*" isolation="DEFAULT" propagation="REQUIRED"/>
+        </tx:attributes>
+    </tx:advice>
+    <!-- aop配置 -->
+    <aop:config>
+        <aop:pointcut expression="execution(* com.neu.service.*.*(..))"
+                      id="myPointcut"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="myPointcut"/>
+    </aop:config>
+
+</beans>

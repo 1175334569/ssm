@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neu.dao.IStudentDao">
+    <insert id="insertStu" parameterType="com.neu.bean.Student">
+        insert into student(name,age,score)values(#{name},#{age},#{score})
+    </insert>
+    <delete id="deleteStu">
+        delete from student where id=#{xxx}<!-- 占位符-->
+    </delete>
+    <update id="updateStu" parameterType="com.neu.bean.Student">
+        update student set
+        name=#{name},age=#{age},score=#{score} where id=#{id}<!--参数Student 中的id属性-->
+    </update>
+    <select id="selectAll" resultType="Student">
+        select * from student
+    </select>
+
+    <select id="selectById"  resultType="Student">
+        select * from student where id=#{xxx}
+    </select>
+
+    <select id="selectByName" resultType="Student">
+        select id, name, age,score from student where t_name like #{xxx} '%'
+    </select>
+
+</mapper>

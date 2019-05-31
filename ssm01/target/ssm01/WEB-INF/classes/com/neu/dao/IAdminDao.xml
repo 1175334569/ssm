@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neu.dao.IAdminDao">
+    <insert id="insertAdmin">/*插入数据*/
+        insert into
+        admin(adminid,adminname,adminpassword)
+        values(#{adminid},#{adminname},#{adminpassword})
+    </insert>
+   <delete id="deleteAdmin">/*删除数据*/
+       delete from admin where adminid=#{xxx}
+   </delete>
+    <update id="updateAdmin" parameterType="Admin">/*更新数据*/
+        update admin
+        set adminname=#{adminname}, adminpassword=#{adminpassword}
+        where adminid =#{adminid}
+    </update>
+    <select id="selectAllAdmin" resultType="Admin">/*查询所有管理员*/
+        select * from admin;
+    </select>
+    <select id="selectById" resultType="Admin">/*根据id查询数据*/
+        select * from admin where adminid=#{xxx}
+    </select>
+    <select id="selectAdminByName" resultType="Admin">/*根据名字模糊查询*/
+        select * from admin
+        where adminname like '%' #{xxx} '%'
+    </select>
+
+    <!--查询用户-->
+    <select id="findAdmin" parameterType="String" resultType="Admin">
+        select * from admin
+        where adminname=#{adminName}
+        and adminpassword=#{adminpassWord}
+    </select>
+</mapper>

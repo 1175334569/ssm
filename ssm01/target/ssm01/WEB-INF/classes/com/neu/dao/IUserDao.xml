@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neu.dao.IUserDao">
+<insert id="insertUser" parameterType="com.neu.bean.User">  /* 插入数据*/
+    insert into user (username,password,email) values (#{username},#{password},#{email})
+</insert>
+    <update id="updateUser" parameterType="com.neu.bean.User"><!--修改数据-->
+        update  user set
+        username=#{username},password=#{password},email=#{email} where userid=#{userid}
+    </update>
+    <delete id="deleteUser">/*删除数据*/
+        delete from user where userid=#{xxx}
+    </delete>
+    <select id="selectAllUser"  resultType="User"> /*查询所有数据*/
+        select * from user
+    </select>
+    <select id="selectById" resultType="User">/*按id查询*/
+        select  * from user where userid=#{xxx}
+    </select>
+    <select id="selectByName" resultType="User">
+        select * from user where username=#{username}
+    </select>
+    <select id="selectUserByName" resultType="int">/*按名字查询*/
+        select IFNULL(max(userid),0) from user  where username=#{username}
+    </select>
+   <select id="selectByNameAndPwd" resultType="int">
+       select  IFNULL(max(userid),0) from user where password=#{password} and username=#{username}
+   </select>
+    <select id="getNameId" resultType="int">
+        select IFNULL(max(userid),0) from user where username=#{username}
+    </select>
+    <select id="getName" resultType="String">
+        select username from user where userid=#{userid}
+    </select>
+</mapper>
